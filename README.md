@@ -1,20 +1,22 @@
 # Terraform Google Billing Dashboard
 
-This module automates creation of the GCP Billnig Dashboard. Billing Dashboard, created in Looker Studio, uses Billing Export dataset, and offers drill down and slice a dice capabilities to analyze GCP spend using charts, tables and filters.
+This module automates creation of the GCP resources required to deploy the [Billing Dashboard](https://datastudio.google.com/reporting/64387229-05e0-4951-aa3f-e7349bbafc07/page/p_l3qef1s8rc). 
+Billing Dashboard is a Looker Studio report, which uses Billing Export of the [Standard Usage Cost](https://cloud.google.com/billing/docs/how-to/export-data-bigquery-setup) into a BigQuery dataset, and offers drill down and slice and dice capabilities to analyze GCP spend using charts, tables and filters.
 
-It supports creating:
+This terraform module supports creating:
 
-1. BigQuery View for the standard gcp billing export bigquery table.
-1.  If Looker Studio Service Agent is provided than this module will create following components:
-    - Gcp service account to be impersonated by Looker Studio Service Agent  
-    - roles/iam.serviceAccountTokenCreator, roles/bigquery.jobUser and roles/bigquery.dataViewer roles binding for the GCP service account
+1. BigQuery View for the Standard Usage Cost export BigQuery table.
+1. If the Looker Studio Service Agent name is provided, then this module will create the following components:
+    - GCP Service Account to be impersonated by the Looker Studio Service Agent  
+    - `roles/iam.serviceAccountTokenCreator`, `roles/bigquery.jobUser` and `roles/bigquery.dataViewer` roles binding for the GCP service account
 
-Due to the Looker Studion API limitations the output of this script will generate Looker Studio Linking Api link. You need to click on this link and save the report. More details [here] (https://developers.google.com/looker-studio/integrate/linking-api#linking_api_user_experience).
+Due to the Looker Studio API limitations, the output of this script will generate a [Looker Studio Linking API](https://developers.google.com/looker-studio/integrate/linking-api#linking_api_user_experience) link. You need to click the link from terraform output to accept and save the report.
+
 
 ### Requirements
 1. To deploy this blueprint you must have an active billing account and billing permissions.
-1. Verify or enable GCP Billing Exports - standard and detailed usage costs exports (if enabling for first time await export tables are created before proceeding to next step)
-1. If you plan to use Looker Studio Service Agent instead of your credentials copy the service agent name from [here] (https://lookerstudio.google.com/c/serviceAgentHelp) and pass it to the script via the looker-studio-service-agent-name parameter.
+1. Verify or enable GCP Billing Exports - standard or detailed usage costs export (if enabling for first time, await export tables to be created before proceeding to next step)
+1. If you plan to share the report in your organization and use a Service Account instead of your own credentials to access the BigQuery View, copy the Service Agent name from the [Looker Studio Service Agent page](https://lookerstudio.google.com/c/serviceAgentHelp) and pass it to the script via the `looker-studio-service-agent-name` parameter.
 
 ## Usage
 
@@ -68,10 +70,10 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_billing-data-interval"></a> [billing-data-interval](#input\_billing-data-interval) | Time interval in month to be showed in billing dashboard. | `number` | `13` | no |
-| <a name="input_bq-billing-export-table-name"></a> [bq-billing-export-table-name](#input\_bq-billing-export-table-name) | Standard billing export bigquery table name. | `string` | n/a | yes |
-| <a name="input_bq-dashboard-dataset-name"></a> [bq-dashboard-dataset-name](#input\_bq-dashboard-dataset-name) | Bigquery dataset where the dashboard view will be created. Should already exist. | `string` | n/a | yes |
-| <a name="input_bq-dashboard-view-labels"></a> [bq-dashboard-view-labels](#input\_bq-dashboard-view-labels) | A map of labels to apply to bigquery view. | `map(string)` | `{}` | no |
-| <a name="input_bq-dashboard-view-name"></a> [bq-dashboard-view-name](#input\_bq-dashboard-view-name) | Bigquery view name for the billing export to be created. | `string` | `"billing-export-view"` | no |
+| <a name="input_bq-billing-export-table-name"></a> [bq-billing-export-table-name](#input\_bq-billing-export-table-name) | Standard billing export BigQuery table name. | `string` | n/a | yes |
+| <a name="input_bq-dashboard-dataset-name"></a> [bq-dashboard-dataset-name](#input\_bq-dashboard-dataset-name) | BigQuery dataset where the dashboard view will be created. Should already exist. | `string` | n/a | yes |
+| <a name="input_bq-dashboard-view-labels"></a> [bq-dashboard-view-labels](#input\_bq-dashboard-view-labels) | A map of labels to apply to BigQuery view. | `map(string)` | `{}` | no |
+| <a name="input_bq-dashboard-view-name"></a> [bq-dashboard-view-name](#input\_bq-dashboard-view-name) | BigQuery view name for the billing export to be created. | `string` | `"billing-export-view"` | no |
 | <a name="input_looker-studio-report-name"></a> [looker-studio-report-name](#input\_looker-studio-report-name) | Copied report name. | `string` | `"billing-report"` | no |
 | <a name="input_looker-studio-service-account-name"></a> [looker-studio-service-account-name](#input\_looker-studio-service-account-name) | Gcp service account name used to execute looker requests on behalf of looker service agent. | `string` | `"looker-studio-sa"` | no |
 | <a name="input_looker-studio-service-agent-name"></a> [looker-studio-service-agent-name](#input\_looker-studio-service-agent-name) | Looker studio service agent name to be used with the looker studio dashboard. Can be copied from https://lookerstudio.google.com/c/serviceAgentHelp. If empty no gcp service account will be created and looker dashboard will be used with the executor's personal gcp account only. | `string` | `null` | no |
@@ -99,7 +101,7 @@ The [Project Factory module][project-factory-module] and the
 [IAM module][iam-module] may be used in combination to provision a
 service account with the necessary roles applied.
 
-### Org policies that could block
+### Org policies that could block the deployment
 
 Org policies that could block the deployment of this solution
 
