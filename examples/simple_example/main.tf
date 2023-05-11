@@ -18,7 +18,7 @@ module "billing_dashboard" {
   source = "git::https://github.com/GoogleCloudPlatform/terraform-google-billing-dashboard.git?ref=main"
 
   project-id  = var.project-id
-  bq-billing-export-table-name = "data-analytics-pocs.public.billing_dashboard_export"
-  bq-dashboard-dataset-name = "billing_test"
-  looker-studio-service-agent-name = "service-org-test@gcp-sa-datastudio.iam.gserviceaccount.com"
+  bq-billing-export-table-id = var.bq-billing-export-table-id
+  bq-dashboard-dataset-name = var.bq-dashboard-dataset-name
+  looker-studio-service-agent-name = var.looker-studio-service-agent-name
 }

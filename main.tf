@@ -17,11 +17,13 @@
 locals {
   #Google template looker report id.
   looker-template-report-id = "64387229-05e0-4951-aa3f-e7349bbafc07"
+  #extract dataset name if user is providing project_id.dataset_id
+  bq-dashboard-dataset-name = element(split(".", var.bq-dashboard-dataset-name), length(split(".",var.bq-dashboard-dataset-name))-1)
 }
 
 resource "google_bigquery_table" "target_view_name" {
   project    = var.project-id
-  dataset_id = var.bq-dashboard-dataset-name
+  dataset_id = local.bq-dashboard-dataset-name
   table_id   = var.bq-dashboard-view-name
 
   #needed to be able to recreate the view when terraform changes are applyed terraform
@@ -35,7 +37,7 @@ resource "google_bigquery_table" "target_view_name" {
       COALESCE((SELECT SUM(x.amount) FROM UNNEST(source.credits) x),0) + cost as net_cost, 
       PARSE_DATE('%Y%m', invoice.month) AS Invoice_Month,
       _PARTITIONDATE AS date 
-      FROM `${var.bq-billing-export-table-name}` source 
+      FROM `${var.bq-billing-export-table-id}` source 
       WHERE _PARTITIONDATE > DATE_SUB(CURRENT_DATE(), INTERVAL ${var.billing-data-interval} MONTH)
 EOF
   }

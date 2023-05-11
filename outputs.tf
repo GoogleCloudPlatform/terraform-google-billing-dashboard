@@ -15,11 +15,11 @@
  */
 
 output "looker_studio_report_link" {
-  description = "Looker Linking API url."
+  description = "Looker Studio Linking API link."
   value       = "https://datastudio.google.com/reporting/create?c.reportId=${local.looker-template-report-id}&r.reportName=${var.looker-studio-report-name}&ds.ds8.refreshFields=false&ds.ds8.connector=bigQuery&ds.ds8.projectId=${var.project-id}&ds.ds8.type=TABLE&ds.ds8.datasetId=${var.bq-dashboard-dataset-name}&ds.ds8.tableId=${var.bq-dashboard-view-name}"
 }
 
 output "gcp_service_account_name" {
-  description = "Gcp service account name to be used with looker dashboard as datasource credentials."
+  description = "Gcp service account name to be used with Looker Studio dashboard as datasource credentials."
   value       = var.looker-studio-service-agent-name != null ? google_service_account.looker_studio[0].email : null
 }

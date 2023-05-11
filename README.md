@@ -28,7 +28,7 @@ module "billing_dashboard" {
   version = "~> 0.1"
 
   project_id                        = "<PROJECT ID>"
-  bq-billing-export-table-name      = "<BILLING EXPORT TABLE>"
+  bq-billing-export-table-id        = "<BILLING EXPORT TABLE ID>"
   bq-dashboard-dataset-name         = "<BIGQUERY DATASET>"
   looker-studio-service-agent-name  = "<LOOKER STUDIO SERVICE AGENT>"
 }
@@ -70,8 +70,8 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_billing-data-interval"></a> [billing-data-interval](#input\_billing-data-interval) | Time interval in month to be showed in billing dashboard. | `number` | `13` | no |
-| <a name="input_bq-billing-export-table-name"></a> [bq-billing-export-table-name](#input\_bq-billing-export-table-name) | Standard billing export BigQuery table name. | `string` | n/a | yes |
-| <a name="input_bq-dashboard-dataset-name"></a> [bq-dashboard-dataset-name](#input\_bq-dashboard-dataset-name) | BigQuery dataset where the dashboard view will be created. Should already exist. | `string` | n/a | yes |
+| <a name="input_bq-billing-export-table-id"></a> [bq-billing-export-table-id](#input\_bq-billing-export-table-id) | Standard billing export BigQuery table name INCLUDING project id and dataset id. Can be found in BigQuery table details under table id. | `string` | n/a | yes |
+| <a name="input_bq-dashboard-dataset-name"></a> [bq-dashboard-dataset-name](#input\_bq-dashboard-dataset-name) | BigQuery dataset id  where the dashboard view will be created. Should already exist. | `string` | n/a | yes |
 | <a name="input_bq-dashboard-view-labels"></a> [bq-dashboard-view-labels](#input\_bq-dashboard-view-labels) | A map of labels to apply to BigQuery view. | `map(string)` | `{}` | no |
 | <a name="input_bq-dashboard-view-name"></a> [bq-dashboard-view-name](#input\_bq-dashboard-view-name) | BigQuery view name for the billing export to be created. | `string` | `"billing-export-view"` | no |
 | <a name="input_looker-studio-report-name"></a> [looker-studio-report-name](#input\_looker-studio-report-name) | Copied report name. | `string` | `"billing-report"` | no |
@@ -112,9 +112,8 @@ Org policies that could block the deployment of this solution
 A project with the following APIs enabled must be used to host the
 resources of this module:
 
-- Google Cloud APIs `cloudapis.googleapis.com`
-- BigQuery API `bigquery.googleapis.com`
-- Cloud Resource Manager API `cloudresourcemanager.googleapis.com`
+- [BigQuery API](https://console.cloud.google.com/apis/api/bigquery.googleapis.com) `bigquery.googleapis.com`
+- [Identity and Access Management (IAM) API](https://console.cloud.google.com/apis/api/iam.googleapis.com) `iam.googleapis.com`
 
 The [Project Factory module][project-factory-module] can be used to
 provision a project with the necessary APIs enabled.

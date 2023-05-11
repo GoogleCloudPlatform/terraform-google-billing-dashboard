@@ -15,13 +15,11 @@
  */
 
 output "looker_studio_report_link" {
-  #https://developers.google.com/looker-studio/integrate/linking-api
-  description = "Looker Linking API url."
+  description = "Looker Studio Linking API link."
   value       = module.billing_dashboard.looker_studio_report_link
 }
 
 output "gcp_service_account_name" {
-  #https://developers.google.com/looker-studio/integrate/linking-api
-  description = "Gcp service account name to be used with looker dashboard as datasource credentials."
+  description = "Gcp service account name to be used with Looker Studio dashboard as datasource credentials."
   value       = module.billing_dashboard.gcp_service_account_name
 }
