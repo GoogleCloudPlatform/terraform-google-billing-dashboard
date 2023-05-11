@@ -20,9 +20,9 @@ variable "project-id" {
   type        = string
 }
 
-variable "bq-billing-export-table-name" {
+variable "bq-billing-export-table-id" {
   type        = string
-  description = "Standard billing export bigquery table name."
+  description = "Standard billing export BigQuery table name INCLUDING project id and dataset id. Can be found in BigQuery table details under table id."
 }
 
 variable "bq-dashboard-dataset-name" {

@@ -19,14 +19,14 @@ variable "project-id" {
   type        = string
 }
 
-variable "bq-billing-export-table-name" {
+variable "bq-billing-export-table-id" {
   type        = string
-  description = "Standard billing export bigquery table name."
+  description = "Standard billing export bigquery table id."
 }
 
 variable "bq-dashboard-dataset-name" {
   type        = string
-  description = "Bigquery dataset where the dashboard view will be created. Should already exist."
+  description = "Bigquery dataset id where the dashboard view will be created. Should already exist."
 }
 
 variable "looker-studio-service-agent-name" {
